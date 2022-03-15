@@ -8,18 +8,22 @@ public class PlayerControler : MonoBehaviour
     private new Rigidbody rigidbody;
     private AudioSource fuente{get{return GetComponent<AudioSource>();}}
     public AudioClip comer;
+    public AudioClip vida;
     public AudioClip ganar;
     public GameObject esfera;
     public Vector2 sensibility;
     private Transform camera;
     int contador;
+    int contadorV;
     public Text puntuacion;
     public Text win;
+    public Text vidaN;
+    public Text lose;
 
     public float speed = 10f;
 
     private void actualizarmarcador(){
-        puntuacion.text = "Donas Comidas: " + contador;
+        puntuacion.text = "Donas Comidas: " + contador + "/10";
     }
     // Start is called before the first frame update
     void Start()
@@ -29,10 +33,13 @@ public class PlayerControler : MonoBehaviour
         camera = transform.Find("Camera");
         Cursor.lockState = CursorLockMode.Locked;
 
+        contadorV = 5;
         contador = 0;
         actualizarmarcador();
+        vidaN.text = "Vidas: " + contadorV;
 
         win.gameObject.SetActive(false);
+        lose.gameObject.SetActive(false);
         
     }
 
@@ -77,6 +84,18 @@ public class PlayerControler : MonoBehaviour
             if (contador >= 10){
                 win.gameObject.SetActive(true);
                 fuente.PlayOneShot(ganar);
+            }
+        }
+        if(c.gameObject.tag == "enemigo")
+        {
+            print("Daño resivido");
+            fuente.PlayOneShot(vida);
+            //dona.gameObject.SetActive(true);
+            contadorV = contadorV - 1;
+            vidaN.text = "Vidas: " + contadorV;
+            if (contadorV <= 0){
+                lose.gameObject.SetActive(true);
+                fuente.PlayOneShot(vida);
             }
         }
     }
