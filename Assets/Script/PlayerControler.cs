@@ -8,6 +8,7 @@ public class PlayerControler : MonoBehaviour
     private new Rigidbody rigidbody;
     private AudioSource fuente{get{return GetComponent<AudioSource>();}}
     public AudioClip comer;
+    public AudioClip ganar;
     public GameObject esfera;
     public Vector2 sensibility;
     private Transform camera;
@@ -75,6 +76,7 @@ public class PlayerControler : MonoBehaviour
             actualizarmarcador();
             if (contador >= 10){
                 win.gameObject.SetActive(true);
+                fuente.PlayOneShot(ganar);
             }
         }
     }
